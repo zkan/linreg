@@ -6,11 +6,18 @@
 #ifndef _LINREG_H_
 #define _LINREG_H_
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+
+using namespace std;
 
 class LinearRegression {
     public:
         LinearRegression();
         ~LinearRegression();
+
+        void read_data(char* file_data);
 };
 
 #endif

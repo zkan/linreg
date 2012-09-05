@@ -2,7 +2,7 @@
     Test driver to test linreg.h linear regression class
 */
 #include <iostream>
-#include <iomanip>
+#include <fstream>
 #include "linreg.h"
 
 using namespace std;
@@ -10,8 +10,11 @@ using namespace std;
 double x[] = { 71,  73,  64,  65,  61,  70,  65,  72,  63,  67,  64};
 double y[] = {160, 183, 154, 168, 159, 180, 145, 210, 132, 168, 141};
 
-int main() {
+int main(int argc, char *argv[]) {
     cout << "Linear Regression Test\n" << endl;
+
+    LinearRegression lr;
+    lr.read_data(argv[1]);
 
 /*
     LinearRegression lr(x, y, 11);  // create with two arrays
