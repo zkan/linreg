@@ -5,6 +5,7 @@
 */
 #ifndef _LINREG_H_
 #define _LINREG_H_
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -23,9 +24,13 @@ class LinearRegression {
 
     private:
         vector< vector<double> > _data;
+        vector<double> _predicted_data;
+        vector<double> _theta;
         
         double string_to_double(string str);
         vector<string> split(string str, string delimiters);
+
+        double compute_cost(vector< vector<double> > X, vector<double> y, );
 };
 
 #endif

@@ -49,7 +49,7 @@ void LinearRegression::print_data() {
         for(unsigned int j = 0; j < this->_data[i].size(); j++) {
             cout << this->_data[i][j] << "|";
         }
-        cout << endl;
+        cout << " => " << this->_predicted_data[i] << endl;
     }
 }
 
@@ -68,10 +68,20 @@ void LinearRegression::read_data(char* file_data) {
         }
         
         tokens = split(line, ", ");
-        for(unsigned int i = 0; i < tokens.size(); i++) {
+        
+        // first column for data X
+//        vector<string>::iteration it;
+//        it = tokens.begin();
+//        tokens.insert(it, "1");
+
+        for(unsigned int i = 0; i < tokens.size() - 1; i++) {
             val.push_back(string_to_double(tokens[i]));
         }
         this->_data.push_back(val);
+
+        // last column is the predicted data y
+        this->_predicted_data.push_back(string_to_double(tokens[tokens.size() - 1]));
+
         val.clear();
     }
 }
