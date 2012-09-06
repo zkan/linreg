@@ -22,6 +22,8 @@ class LinearRegression {
         void read_data(char* file_data);
         void print_data();
 
+        void gradient_descent();
+
     private:
         vector< vector<double> > _data;
         vector<double> _predicted_data;
@@ -30,8 +32,10 @@ class LinearRegression {
         double string_to_double(string str);
         vector<string> split(string str, string delimiters);
 
-        double compute_cost(vector< vector<double> > X, vector<double> y, );
+        vector<double> dot_product(vector< vector<double> > X, vector<double> theta);
+        double compute_cost(vector< vector<double> > X, vector<double> y, vector<double> theta);
 };
 
 #endif
 // end of linreg.h
+
