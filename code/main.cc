@@ -15,6 +15,7 @@ int main(int argc, char *argv[]) {
 
     LinearRegression lr;
     lr.read_data(argv[1]);
+    lr.print_data();
 
 /*
     LinearRegression lr(x, y, 11);  // create with two arrays

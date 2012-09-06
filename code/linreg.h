@@ -8,6 +8,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <vector>
 #include <string>
 
 using namespace std;
@@ -18,6 +19,13 @@ class LinearRegression {
         ~LinearRegression();
 
         void read_data(char* file_data);
+        void print_data();
+
+    private:
+        vector< vector<double> > _data;
+        
+        double string_to_double(string str);
+        vector<string> split(string str, string delimiters);
 };
 
 #endif
