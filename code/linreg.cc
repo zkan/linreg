@@ -84,30 +84,39 @@ void LinearRegression::read_data(char* file_data) {
     }
 }
 
-vector<double> LinearRegression::dot_product(vector< vector<double> > X, vector<double> theta) {
-    vector<double> predictions;
+double LinearRegression::dot_product(vector<double> X, vector<double> theta) {
+    double sum_product = 0;
 
-    for(unsigned int i = 0; i < theta.size(); i++) {
-        double sum_product = 0;
-        for(unsigned int j = 0; j < X[i].size(); j++) {
-            sum_product += theta[i] * X[i][j];
-        }
-        predictions.push_back(sum_product);
+    for(unsigned int i = 0; i < X.size(); i++) {
+        sum_product += theta[i] * X[i];
     }
 
-    return predictions;
+    return sum_product;
 }
 
 double LinearRegression::compute_cost(vector< vector<double> > X, 
                                       vector<double> y, 
                                       vector<double> theta) {
+    double J = 0;
     unsigned int m = y.size();
 
-    vector<double> predictions = dot_product(X, theta);
+    vector<double> predictions;
+    
+    for(unsigned int i = 0; i < theta.size(); i++) {
+        double val = dot_product(X[i], theta);
+        predictions.push_back(val);
+    }
 
-    cout << predictions.size() << endl;
+//    cout << predictions.size() << endl;
 
-    return 0.0;
+    vector<double> errors;
+    for(unsigned int i = 0; i < predictions.size(); i++) {
+        errors.push_back(predictions[i] - y[i]);
+    }
+
+    J = (1.0 / (2 * m)) * dot_product(errors, errors);
+
+    return J;
 }
 
 void LinearRegression::gradient_descent() {
@@ -116,7 +125,8 @@ void LinearRegression::gradient_descent() {
         this->_theta.push_back(1);
     }
 
-    compute_cost(this->_data, this->_predicted_data, this->_theta);
+    double J = compute_cost(this->_data, this->_predicted_data, this->_theta);
+    cout << "J = " << J << endl;
 }
 
 

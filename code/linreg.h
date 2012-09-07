@@ -32,7 +32,7 @@ class LinearRegression {
         double string_to_double(string str);
         vector<string> split(string str, string delimiters);
 
-        vector<double> dot_product(vector< vector<double> > X, vector<double> theta);
+        double dot_product(vector<double> X, vector<double> theta);
         double compute_cost(vector< vector<double> > X, vector<double> y, vector<double> theta);
 };
 
