@@ -21,18 +21,19 @@ class LinearRegression {
 
         void read_data(char* file_data);
         void print_data();
-
         void gradient_descent(double alpha, int num_iters);
 
     private:
         vector< vector<double> > _data;
+        vector<double> _mean;
+        vector<double> _std;
         vector<double> _predicted_data;
         vector<double> _theta;
         
         double string_to_double(string str);
         vector<string> split(string str, string delimiters);
-
         double dot_product(vector<double> a, vector<double> b);
+        void feature_normalize();
         double compute_cost(vector< vector<double> > X, vector<double> y, vector<double> theta);
 };
 

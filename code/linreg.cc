@@ -94,6 +94,23 @@ double LinearRegression::dot_product(vector<double> a, vector<double> b) {
     return sum_product;
 }
 
+void LinearRegression::feature_normalize() {
+    vector<double> sq_;
+
+    // initialize the mean and std vectors
+    for(unsigned int i = 0; i < this->_data[0].size(); i++) {
+        this->_mean.push_back(0);
+        this->_std.push_back(0);
+    }
+
+    for(unsigned int i = 0; i < this->_data.size(); i++) {
+        for(unsigned int j = 0; j < this->_data[i].size(); j++) {
+            this->_mean[j] += this->_data[i][j];
+            this->_std[j] += this->_data[i][j] * this->_data[i][j];
+        }
+    }
+}
+
 double LinearRegression::compute_cost(vector< vector<double> > X, 
                                       vector<double> y, 
                                       vector<double> theta) {
@@ -124,6 +141,9 @@ double LinearRegression::compute_cost(vector< vector<double> > X,
 void LinearRegression::gradient_descent(double alpha, int num_iters) {
     vector<double> J_history;
     unsigned int m = this->_predicted_data.size();
+
+    // normalize the data
+    feature_normalize();
 
     // initialize theta
     for(unsigned int i = 0; i < this->_data[0].size(); i++) {
