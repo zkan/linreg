@@ -84,11 +84,11 @@ void LinearRegression::read_data(char* file_data) {
     }
 }
 
-double LinearRegression::dot_product(vector<double> X, vector<double> theta) {
+double LinearRegression::dot_product(vector<double> a, vector<double> b) {
     double sum_product = 0;
 
-    for(unsigned int i = 0; i < X.size(); i++) {
-        sum_product += theta[i] * X[i];
+    for(unsigned int i = 0; i < a.size(); i++) {
+        sum_product += a[i] * b[i];
     }
 
     return sum_product;
@@ -101,32 +101,77 @@ double LinearRegression::compute_cost(vector< vector<double> > X,
     unsigned int m = y.size();
 
     vector<double> predictions;
-    
-    for(unsigned int i = 0; i < theta.size(); i++) {
+    for(unsigned int i = 0; i < X.size(); i++) {
         double val = dot_product(X[i], theta);
         predictions.push_back(val);
     }
-
+    
 //    cout << predictions.size() << endl;
 
     vector<double> errors;
     for(unsigned int i = 0; i < predictions.size(); i++) {
-        errors.push_back(predictions[i] - y[i]);
+        double diff = predictions[i] - y[i];
+        errors.push_back(diff);
+//        cout << diff << endl;
     }
 
     J = (1.0 / (2 * m)) * dot_product(errors, errors);
+//    cout << J << endl;
 
     return J;
 }
 
-void LinearRegression::gradient_descent() {
+void LinearRegression::gradient_descent(double alpha, int num_iters) {
+    vector<double> J_history;
+    unsigned int m = this->_predicted_data.size();
+
     // initialize theta
-    for(unsigned int i = 0; i < this->_data.size(); i++) {
-        this->_theta.push_back(1);
+    for(unsigned int i = 0; i < this->_data[0].size(); i++) {
+        this->_theta.push_back(0);
     }
 
-    double J = compute_cost(this->_data, this->_predicted_data, this->_theta);
-    cout << "J = " << J << endl;
+    double J = 0;
+
+//    J = compute_cost(this->_data, this->_predicted_data, this->_theta);
+//    cout << J << endl;
+//    return;
+
+    for(int iter = 0; iter < num_iters; iter++) {
+//        cout << "Iter: " << iter << endl;
+
+        // first prediction
+        vector<double> predictions;
+        for(unsigned int i = 0; i < this->_data.size(); i++) {
+            double val = dot_product(this->_data[i], this->_theta);
+            predictions.push_back(val);
+        }
+
+        double error = 0;
+        for(unsigned int i = 0; i < this->_theta.size(); i++) {
+            vector<double> diff;
+            vector<double> X_col;
+            for(unsigned int j = 0; j < this->_data.size(); j++) {
+            //    cout << this->_data[j][0] << "+";
+                diff.push_back(predictions[j] - this->_predicted_data[j]);
+            //    cout << predictions[j] << " - " << this->_predicted_data[j] << endl;
+                X_col.push_back(this->_data[j][i]);
+            //    cout << this->_data[j][i] << endl;
+            }
+        //    return;
+            error = dot_product(diff, X_col);
+
+            this->_theta[i] = this->_theta[i] - (alpha * (1.0 / m) * error);
+        }
+        
+        J = compute_cost(this->_data, this->_predicted_data, this->_theta);
+        cout << J << endl;
+        J_history.push_back(J);
+    }
+
+    cout << "Theta:" << endl;
+    for(unsigned int i = 0; i < this->_theta.size(); i++) {
+        cout << this->_theta[i]  << endl;
+    }
 }
 
 

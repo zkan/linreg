@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
     lr.read_data(argv[1]);
 //    lr.print_data();
 
-    lr.gradient_descent();
+    lr.gradient_descent(0.01, 100);
 
 /*
     LinearRegression lr(x, y, 11);  // create with two arrays
