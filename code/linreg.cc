@@ -95,20 +95,35 @@ double LinearRegression::dot_product(vector<double> a, vector<double> b) {
 }
 
 void LinearRegression::feature_normalize() {
-    vector<double> sq_;
-
     // initialize the mean and std vectors
     for(unsigned int i = 0; i < this->_data[0].size(); i++) {
         this->_mean.push_back(0);
         this->_std.push_back(0);
     }
 
+    unsigned int N = this->_data.size();
     for(unsigned int i = 0; i < this->_data.size(); i++) {
         for(unsigned int j = 0; j < this->_data[i].size(); j++) {
             this->_mean[j] += this->_data[i][j];
             this->_std[j] += this->_data[i][j] * this->_data[i][j];
         }
     }
+    for(unsigned int i = 0; i < this->_mean.size(); i++) {
+        this->_mean[i] = this->_mean[i] / N;
+    }
+    for(unsigned int i = 0; i < this->_std.size(); i++) {
+        this->_std[i] = sqrt((this->_std[i] / N) - (this->_mean[i] * this->_mean[i]));
+    }
+
+    for(unsigned int i = 0; i < this->_data.size(); i++) {
+        // normalize all except the first column
+        for(unsigned int j = 1; j < this->_data[i].size(); j++) {
+            this->_data[i][j] = (this->_data[i][j] - this->_mean[j]) / this->_std[j];
+//            cout << this->_data[i][j] << " ";
+        }
+//        cout << endl;
+    }
+
 }
 
 double LinearRegression::compute_cost(vector< vector<double> > X, 
@@ -157,7 +172,7 @@ void LinearRegression::gradient_descent(double alpha, int num_iters) {
 //    return;
 
     for(int iter = 0; iter < num_iters; iter++) {
-//        cout << "Iter: " << iter << endl;
+        cout << "Iter " << iter + 1 << ": ";
 
         // first prediction
         vector<double> predictions;
@@ -187,12 +202,19 @@ void LinearRegression::gradient_descent(double alpha, int num_iters) {
         cout << J << endl;
         J_history.push_back(J);
     }
+    cout << endl;
 
-    cout << "Theta:" << endl;
-    for(unsigned int i = 0; i < this->_theta.size(); i++) {
-        cout << this->_theta[i]  << endl;
-    }
+//    cout << "Theta:" << endl;
+//    for(unsigned int i = 0; i < this->_theta.size(); i++) {
+//        cout << this->_theta[i]  << endl;
+//    }
 }
 
-
+void LinearRegression::print_theta() {
+    cout << "Theta:" << endl;
+    for(unsigned int i = 0; i < this->_theta.size(); i++) {
+        cout << this->_theta[i] << endl;
+    }
+    cout << endl;
+}
 

@@ -11,6 +11,7 @@
 #include <sstream>
 #include <vector>
 #include <string>
+#include <math.h>
 
 using namespace std;
 
@@ -22,6 +23,8 @@ class LinearRegression {
         void read_data(char* file_data);
         void print_data();
         void gradient_descent(double alpha, int num_iters);
+        void print_theta();
+        void classify(vector< vector<double> > X);
 
     private:
         vector< vector<double> > _data;
