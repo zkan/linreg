@@ -153,12 +153,14 @@ double LinearRegression::compute_cost(vector< vector<double> > X,
     return J;
 }
 
-void LinearRegression::gradient_descent(double alpha, int num_iters) {
+void LinearRegression::gradient_descent(double alpha, int num_iters, bool norm) {
     vector<double> J_history;
     unsigned int m = this->_predicted_data.size();
 
     // normalize the data
-    feature_normalize();
+    if(norm) {
+        feature_normalize();
+    }
 
     // initialize theta
     for(unsigned int i = 0; i < this->_data[0].size(); i++) {
@@ -216,5 +218,17 @@ void LinearRegression::print_theta() {
         cout << this->_theta[i] << endl;
     }
     cout << endl;
+}
+
+vector<double> LinearRegression::get_theta() {
+    return this->_theta;
+}
+
+vector<double> LinearRegression::get_mean() {
+    return this->_mean;
+}
+
+vector<double> LinearRegression::get_std() {
+    return this->_std;
 }
 

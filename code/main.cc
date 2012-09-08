@@ -8,16 +8,44 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
+    double alpha = 0.01;
+    int num_iters = 1500;
+    bool norm = false;
+
     cout << "Linear Regression Test\n" << endl;
 
     LinearRegression lr;
     lr.read_data(argv[1]);
 //    lr.print_data();
 
-    lr.gradient_descent(0.3, 100);
+    lr.gradient_descent(alpha, num_iters, norm);
     lr.print_theta();
 
-    vector< vector<double> > X;
+    vector<double> X;
+    vector<double> theta = lr.get_theta();
+
+    if(norm) {
+        X.push_back(1650);
+        X.push_back(3);
+    }
+    else {
+        X.push_back(3.5);
+    }
+
+    double result = theta[0];
+    if(norm) {
+        vector<double> mean = lr.get_mean();
+        vector<double> std = lr.get_std();
+        for(unsigned int i = 0; i < X.size(); i++) {
+            result += ((X[i] - mean[i + 1]) / std[i + 1]) * theta[i + 1];
+        }
+    }
+    else {
+        for(unsigned int i = 0; i < X.size(); i++) {
+            result += X[i] * theta[i + 1];
+        }
+    }
+    cout << "Result: " << result << endl;
 
 
 /*

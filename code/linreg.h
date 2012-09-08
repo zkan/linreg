@@ -22,8 +22,11 @@ class LinearRegression {
 
         void read_data(char* file_data);
         void print_data();
-        void gradient_descent(double alpha, int num_iters);
+        void gradient_descent(double alpha, int num_iters, bool norm);
         void print_theta();
+        vector<double> get_theta();
+        vector<double> get_mean();
+        vector<double> get_std();
         void classify(vector< vector<double> > X);
 
     private:
