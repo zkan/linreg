@@ -56,7 +56,7 @@ void LinearRegression::print_data() {
     }
 }
 
-void LinearRegression::read_data(char* file_data) {
+void LinearRegression::read_training_data(char* file_data) {
     ifstream ifile;
     ifile.open(file_data);
 
@@ -71,7 +71,7 @@ void LinearRegression::read_data(char* file_data) {
         }
         
         tokens = split(line, ", ");
-
+        // first to second last column are data X
         for(unsigned int i = 0; i < tokens.size() - 1; i++) {
             val.push_back(string_to_double(tokens[i]));
         }
@@ -101,6 +101,7 @@ void LinearRegression::feature_normalize() {
         this->_std.push_back(0);
     }
 
+    // compute mean and std (both have same vector size)
     unsigned int N = this->_data.size();
     for(unsigned int i = 0; i < this->_data.size(); i++) {
         for(unsigned int j = 0; j < this->_data[i].size(); j++) {
@@ -110,18 +111,14 @@ void LinearRegression::feature_normalize() {
     }
     for(unsigned int i = 0; i < this->_mean.size(); i++) {
         this->_mean[i] = this->_mean[i] / N;
-    }
-    for(unsigned int i = 0; i < this->_std.size(); i++) {
         this->_std[i] = sqrt((this->_std[i] / N) - (this->_mean[i] * this->_mean[i]));
     }
 
     for(unsigned int i = 0; i < this->_data.size(); i++) {
-        // normalize all except the first column
+        // normalize all except the first column (the first column is used for theta_0)
         for(unsigned int j = 1; j < this->_data[i].size(); j++) {
             this->_data[i][j] = (this->_data[i][j] - this->_mean[j]) / this->_std[j];
-//            cout << this->_data[i][j] << " ";
         }
-//        cout << endl;
     }
 
 }
@@ -137,18 +134,14 @@ double LinearRegression::compute_cost(vector< vector<double> > X,
         double val = dot_product(X[i], theta);
         predictions.push_back(val);
     }
-    
-//    cout << predictions.size() << endl;
 
     vector<double> errors;
     for(unsigned int i = 0; i < predictions.size(); i++) {
         double diff = predictions[i] - y[i];
         errors.push_back(diff);
-//        cout << diff << endl;
     }
 
     J = (1.0 / (2 * m)) * dot_product(errors, errors);
-//    cout << J << endl;
 
     return J;
 }
@@ -168,35 +161,28 @@ void LinearRegression::gradient_descent(double alpha, int num_iters, bool norm) 
     }
 
     double J = 0;
-
-//    J = compute_cost(this->_data, this->_predicted_data, this->_theta);
-//    cout << J << endl;
-//    return;
-
     for(int iter = 0; iter < num_iters; iter++) {
         cout << "Iter " << iter + 1 << ": ";
 
-        // first prediction
+        // predict first
         vector<double> predictions;
         for(unsigned int i = 0; i < this->_data.size(); i++) {
             double val = dot_product(this->_data[i], this->_theta);
             predictions.push_back(val);
         }
 
+        // then compute the error and update the theta
         double error = 0;
         for(unsigned int i = 0; i < this->_theta.size(); i++) {
             vector<double> diff;
             vector<double> X_col;
             for(unsigned int j = 0; j < this->_data.size(); j++) {
-            //    cout << this->_data[j][0] << "+";
                 diff.push_back(predictions[j] - this->_predicted_data[j]);
-            //    cout << predictions[j] << " - " << this->_predicted_data[j] << endl;
                 X_col.push_back(this->_data[j][i]);
-            //    cout << this->_data[j][i] << endl;
             }
-        //    return;
             error = dot_product(diff, X_col);
 
+            // update the theta
             this->_theta[i] = this->_theta[i] - (alpha * (1.0 / m) * error);
         }
         
@@ -205,11 +191,6 @@ void LinearRegression::gradient_descent(double alpha, int num_iters, bool norm) 
         J_history.push_back(J);
     }
     cout << endl;
-
-//    cout << "Theta:" << endl;
-//    for(unsigned int i = 0; i < this->_theta.size(); i++) {
-//        cout << this->_theta[i]  << endl;
-//    }
 }
 
 void LinearRegression::print_theta() {

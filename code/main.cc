@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
     cout << "Linear Regression Test\n" << endl;
 
     LinearRegression lr;
-    lr.read_data(argv[1]);
+    lr.read_training_data(argv[1]);
 //    lr.print_data();
 
     lr.gradient_descent(alpha, num_iters, norm);
