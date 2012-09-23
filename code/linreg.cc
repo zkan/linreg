@@ -70,6 +70,7 @@ void LinearRegression::read_training_data(char* file_data) {
             continue;
         }
         
+        // split the data into tokens and add 1 to the first column
         tokens = split(line, ", ");
         // first to second last column are data X
         for(unsigned int i = 0; i < tokens.size() - 1; i++) {
