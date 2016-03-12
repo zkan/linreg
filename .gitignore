@@ -13,3 +13,6 @@
 
 # Swap file
 *.swp
+
+# Python
+*.pyc
