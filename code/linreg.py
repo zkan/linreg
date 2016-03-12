@@ -8,3 +8,12 @@ class LinearRegression:
             result += a[each] * b[each]
 
         return result
+
+    def compute_cost(self, X, y, theta):
+        J = 0
+
+        prediction = self.dot_product(X, theta)
+        error = prediction - y
+        J = (1.0 / 2.0) * error * error
+
+        return J
