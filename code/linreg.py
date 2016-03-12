@@ -11,9 +11,15 @@ class LinearRegression:
 
     def compute_cost(self, X, y, theta):
         J = 0
+        predictions = []
 
-        prediction = self.dot_product(X, theta)
-        error = prediction - y
-        J = (1.0 / 2.0) * error * error
+        for each in X:
+            predictions.append(self.dot_product(each, theta))
+
+        errors = []
+        for index, each in enumerate(predictions):
+            errors.append(each - y[index])
+
+        J = (1.0 / 2.0) * self.dot_product(errors, errors)
 
         return J

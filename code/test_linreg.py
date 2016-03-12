@@ -28,13 +28,23 @@ class LinearRegressionTest(unittest.TestCase):
         self.assertEquals(result, expected)
 
     def test_compute_cost_for_single_example_should_return_cost(self):
-        X = [1, 2]
-        y = 2
+        X = [[1, 2]]
+        y = [2]
         theta = [0.1, 0.2]
 
         result = self.linreg.compute_cost(X, y, theta)
 
         expected = 1.125
+        self.assertEquals(result, expected)
+
+    def test_compute_cost_for_entire_examples_should_return_cost(self):
+        X = [[1, 2], [3, 4]]
+        y = [2, 2.5]
+        theta = [0.1, 0.2]
+
+        result = self.linreg.compute_cost(X, y, theta)
+
+        expected = 2.105
         self.assertEquals(result, expected)
 
 
