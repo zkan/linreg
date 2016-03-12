@@ -56,7 +56,7 @@ class LinearRegressionTest(unittest.TestCase):
         result = self.linreg.run_gradient_descent(X, y, theta, number_of_iterations)
 
         expected = (
-            2.6572999999999993,
+            [2.6572999999999993],
             [0.07, 0.16]
         )
         self.assertEquals(result, expected)
@@ -70,7 +70,18 @@ class LinearRegressionTest(unittest.TestCase):
         result = self.linreg.run_gradient_descent(X, y, theta, number_of_iterations)
 
         expected = (
-            0.2953245352067722,
+            [
+                2.6572999999999993,
+                1.4340467700000001,
+                0.8330420285729998,
+                0.5415905512402678,
+                0.4029957986666608,
+                0.339058852804416,
+                0.31098737943231103,
+                0.2997051253564717,
+                0.2959527141041505,
+                0.2953245352067722
+            ],
             [0.21850056185143937, 0.5469413946894416]
         )
         self.assertEquals(result, expected)

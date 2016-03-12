@@ -26,6 +26,7 @@ class LinearRegression:
 
     def run_gradient_descent(self, X, y, theta, number_of_iterations):
         alpha = 0.01
+        J_history = []
 
         for each_iteration in xrange(number_of_iterations):
             predictions = []
@@ -44,5 +45,6 @@ class LinearRegression:
                 theta[t_index] = result
 
             J = self.compute_cost(X, y, theta)
+            J_history.append(J)
 
-        return (J, theta)
+        return (J_history, theta)
